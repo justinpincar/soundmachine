@@ -1,0 +1,17 @@
+http://developer.echonest.com/api/v4/artist/search?api_key=N6E4NIOVYMTHNDM8J&format=json&name=daft+punk&results=1
+
+ARF8HTQ1187B9AE693
+
+http://developer.echonest.com/api/v4/artist/songs?api_key=N6E4NIOVYMTHNDM8J&id=ARF8HTQ1187B9AE693&format=json&start=0&results=20
+
+SORJUWX12DAA468748
+
+curl --verbose -X POST -H "Content-Type:application/octet-stream" "http://developer.echonest.com/api/v4/track/upload?api_key=WM8QB9WJF05SUP8IW&filetype=mp3" --data-binary "@daft_punk_harder_better_faster_stronger.mp3"
+
+
+{"response": {"status": {"version": "4.2", "code": 0, "message": "Success"}, "track": {"status": "complete", "song_id": "SOWHJGR135C32876BA", "title": "Harder Better Faster Stronger", "samplerate": 44100, "artist": "Daft Punk", "id": "TRFQKKE12078BB11F9", "analyzer_version": "3.1.0_beta_5", "release": "", "artist_id": "ARF8HTQ1187B9AE693", "bitrate": 128, "audio_md5": "09f030f74e666c3c4817fed629a4fb87", "md5": "3bb88ccfb8088727087dcdb6d5b0f136"}}}
+
+curl -F "api_key=WM8QB9WJF05SUP8IW" -F "format=json" -F "id=TRFQKKE12078BB11F9" -F "bucket=audio_summary" "http://developer.echonest.com/api/v4/track/analyze"
+
+{"response": {"status": {"version": "4.2", "code": 0, "message": "Success"}, "track": {"status": "complete", "song_id": "SOWHJGR135C32876BA", "audio_md5": "09f030f74e666c3c4817fed629a4fb87", "artist": "Daft Punk", "title": "Harder Better Faster Stronger", "artist_id": "ARF8HTQ1187B9AE693", "analyzer_version": "3.1.0_beta_5", "release": "", "samplerate": 44100, "bitrate": 128, "id": "TRFQKKE12078BB11F9", "audio_summary": {"key": 6, "analysis_url": "https://echonest-analysis.s3.amazonaws.com/TR/TRFQKKE12078BB11F9/3/full.json?Signature=YzNab4gpILiVUmvIY0UXJFMSwMM%3D&Expires=1336874509&AWSAccessKeyId=AKIAJRDFEY23UEVW42BQ", "energy": 0.60709822421028714, "tempo": 123.473, "speechiness": 0.10793530829890763, "mode": 0, "time_signature": 4, "duration": 225.50313, "loudness": -9.7210000000000001, "danceability": 0.78674451755235542}, "md5": "3bb88ccfb8088727087dcdb6d5b0f136"}}}
+

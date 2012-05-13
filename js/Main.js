@@ -37,26 +37,6 @@ function init() {
   light.shadowDarkness = 0.25;
   scene.add( light );
 
-  geometry = new THREE.CubeGeometry( 100, 100, 100 );
-  material = new THREE.MeshBasicMaterial( { color: 0xff0000, wireframe: true } );
-  mesh = new THREE.Mesh( geometry, material );
-  scene.add( mesh );
-
-  producers = [];
-  var radianSegmentLength = 2 * Math.PI / 12.0;
-  var circleRadius = 500;
-  for(var i=0; i<12; i++) {
-    var geometry = new THREE.SphereGeometry(50, 20);
-    var material = new THREE.MeshBasicMaterial( { color: 0xffffff });
-    var mesh = new THREE.Mesh(geometry, material);
-    var radians = radianSegmentLength * i;
-    mesh.position.x = circleRadius * Math.cos(radians);
-    mesh.position.y = 0;
-    mesh.position.z = circleRadius * Math.sin(radians);
-    producers.push(mesh);
-    scene.add(mesh);
-  }
-
   renderer = new THREE.WebGLRenderer( { alpha: false } );
   renderer.setSize( window.innerWidth, window.innerHeight );
   renderer.shadowMapEnabled = true;
@@ -67,11 +47,21 @@ function init() {
 function build() {
   console.log("build()");
 
+  pathCamera = new THREE.Spline( [
+                                new THREE.Vector3( 200, 900, 900 ),
+                                new THREE.Vector3( -200, 900, 900 ),
+                                new THREE.Vector3( -200, 700, 400 ),
+                                new THREE.Vector3( 200, 900, 900 )
+  ] );
+
   sequencer = new Sequencer();
 
   var songId = "TRFQKKE12078BB11F9"; // Daft Punk - Harder, Better, Faster, Stronger
 
   fetchTrackInfo( songId, function ( data ) {
+    var machine1 = new Machine1(sequencer, data);
+    scene.add(machine1);
+
     audio.src = 'js/assets/' + songId + '.mp3';
     audio.play();
   });
@@ -85,6 +75,18 @@ function animate() {
 }
 
 function update() {
+  if (!isNaN(audio.duration)) {
+    var timeFraction = audio.currentTime / audio.duration;
+    var speedUp = 10;
+    var scaledTime = timeFraction * speedUp;
+    while (scaledTime > 1) {
+      scaledTime += -1;
+    }
+
+    camera.position.copy( pathCamera.getPoint( scaledTime ) );
+    camera.lookAt( camera.target );
+  }
+
   sequencer.update( audio.currentTime );
   renderer.render( scene, camera );
 }

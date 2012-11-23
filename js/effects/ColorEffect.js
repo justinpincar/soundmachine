@@ -4,7 +4,7 @@ var ColorEffect = function(mesh, intensity) {
   };
 
   this.hide = function() {
-//    mesh.material.color.setRGB(0, 0, 0);
+    mesh.material.color.setRGB(0, 0, 0);
   };
 }
 

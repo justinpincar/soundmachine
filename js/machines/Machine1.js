@@ -22,21 +22,17 @@ var Machine1 = function(sequencer, data) {
   }
 
   var segments = data.segments;
-  for (var i=0; i<200; i++) {
+  for (var i=0; i<segments.length; i++) {
     var segment = segments[i];
-    var pitches = segment.pitches;
+    var pitches = segment.pitch_list;
+    var volume = segment.loudness_bucket;
+
     for (var j=0; j<pitches.length; j++) {
       var pitch = pitches[j];
-      var producer = producers[j];
+      var producer = producers[pitch];
 
-      var threshold = 0.2;
-      if (pitch > threshold) {
-        var effect = new ColorEffect(producer, pitch);
-        sequencer.add(effect, segment.start, segment.start + segment.duration);
-      } else {
-        var effect = new ColorEffect(producer, 0);
-        sequencer.add(effect, segment.start, segment.start + segment.duration);
-      }
+      var effect = new ColorEffect(producer, volume);
+      sequencer.add(effect, segment.start, segment.start + segment.duration);
     }
   }
 

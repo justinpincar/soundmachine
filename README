@@ -1,0 +1,4 @@
+Real-time visualization of any mp3.
+
+Branch 'clustered' uses a substantially different approach, normalizing and grouping pitches rather than using raw data.
+
